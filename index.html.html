@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗黑人格测试 - 探索你的黑暗面</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #8b0000;
+            --secondary: #b22222;
+            --accent: #ff4500;
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            --glow: 0 0 10px rgba(139, 0, 0, 0.7);
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(178, 34, 34, 0.1) 0%, transparent 20%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #ff6347;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::after {
+            left: 100%;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: rgba(18, 18, 18, 0.9);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9) 0%, rgba(10, 10, 10, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 120px 0;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(10, 10, 10, 0.8) 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        }
+        
+        /* 介绍部分 */
+        .intro {
+            background-color: var(--darker-bg);
+        }
+        
+        .intro-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .intro-text {
+            flex: 1;
+        }
+        
+        .intro-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .intro-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            filter: brightness(0.8) contrast(1.2);
+        }
+        
+        /* 测试部分 */
+        .test {
+            background-color: var(--dark-bg);
+        }
+        
+        .test-container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(139, 0, 0, 0.3);
+        }
+        
+        .question {
+            margin-bottom: 40px;
+            display: none;
+        }
+        
+        .question.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: rgba(30, 30, 30, 0.7);
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            background-color: rgba(139, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background-color: rgba(139, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.3);
+        }
+        
+        .progress-container {
+            margin-bottom: 30px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #333;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        /* 结果部分 */
+        .result {
+            display: none;
+            text-align: center;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(139, 0, 0, 0.3);
+        }
+        
+        .result-type {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+        }
+        
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+        
+        .result-description {
+            text-align: left;
+            margin-top: 30px;
+        }
+        
+        .personality-traits {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .trait {
+            background-color: rgba(30, 30, 30, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            width: 45%;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 1px solid rgba(139, 0, 0, 0.2);
+        }
+        
+        .trait-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .score-bar {
+            height: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--darker-bg);
+            color: var(--text-muted);
+            padding: 50px 0 20px;
+            border-top: 1px solid rgba(139, 0, 0, 0.3);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .intro-content {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .trait {
+                width: 100%;
+            }
+            
+            .test-container, .result {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">暗黑人格测试</div>
+                <ul class="nav-links">
+                    <li><a href="#intro">关于测试</a></li>
+                    <li><a href="#test">开始测试</a></li>
+                    <li><a href="#types">人格类型</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>探索你的黑暗面</h1>
+                <p>暗黑人格测试揭示你内心深处的特质，包括马基雅维利主义、自恋和心理病态倾向</p>
+                <a href="#test" class="btn btn-accent">开始测试</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 介绍部分 -->
+    <section id="intro" class="intro">
+        <div class="container">
+            <h2>什么是暗黑人格？</h2>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p>暗黑人格特质是指一系列在社会上不受欢迎但普遍存在的人格特征，通常包括三个核心特质：</p>
+                    <ul>
+                        <li><strong>马基雅维利主义</strong>：操纵他人、愤世嫉俗和战略思维倾向</li>
+                        <li><strong>自恋</strong>：自我中心、优越感和对钦佩的渴望</li>
+                        <li><strong>心理病态</strong>：冲动、缺乏共情和责任感</li>
+                    </ul>
+                    <p>本测试包含60个问题，旨在评估你在这些特质上的倾向程度。请注意，这些特质存在于一个连续谱上，所有人都有不同程度的这些特质。</p>
+                    <p>测试结果仅供自我了解参考，不能作为临床诊断依据。</p>
+                </div>
+                <div class="intro-image">
+                    <img src="https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="暗黑人格">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 测试部分 -->
+    <section id="test" class="test">
+        <div class="container">
+            <h2>暗黑人格测试</h2>
+            <div class="test-container">
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span id="current-question">1</span> / <span id="total-questions">60</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+                
+                <!-- 问题将通过JavaScript动态生成 -->
+                <div id="questions-container"></div>
+                
+                <div class="navigation">
+                    <button class="btn" id="prevBtn" disabled>上一题</button>
+                    <button class="btn" id="nextBtn">下一题</button>
+                </div>
+            </div>
+            
+            <div class="result" id="result">
+                <h2>你的暗黑人格测试结果</h2>
+                <div class="result-type" id="resultType">暗黑指数: <span id="darkScore">0</span>/100</div>
+                <div class="result-title" id="resultTitle">分析中...</div>
+                
+                <div class="personality-traits">
+                    <div class="trait">
+                        <div class="trait-title">马基雅维利主义</div>
+                        <div id="machiavellian-score">0%</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="machiavellian-bar"></div>
+                        </div>
+                    </div>
+                    <div class="trait">
+                        <div class="trait-title">自恋</div>
+                        <div id="narcissism-score">0%</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="narcissism-bar"></div>
+                        </div>
+                    </div>
+                    <div class="trait">
+                        <div class="trait-title">心理病态</div>
+                        <div id="psychopathy-score">0%</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="psychopathy-bar"></div>
+                        </div>
+                    </div>
+                    <div class="trait">
+                        <div class="trait-title">总体暗黑指数</div>
+                        <div id="overall-score">0%</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="overall-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-description">
+                    <h3>结果分析</h3>
+                    <p id="result-analysis">正在分析你的测试结果...</p>
+                    <h3>建议</h3>
+                    <p id="result-suggestion">根据你的测试分数，我们将提供个性化建议。</p>
+                </div>
+                
+                <button class="btn btn-accent" id="restartBtn">重新测试</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>我们致力于提供专业的心理学测试，帮助人们更好地了解自己和他人的人格特质。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#intro">关于测试</a></li>
+                        <li><a href="#test">开始测试</a></li>
+                        <li><a href="#types">人格类型</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <ul class="footer-links">
+                        <li>邮箱: contact@darkpersonality.com</li>
+                        <li>电话: 400-123-4567</li>
+                        <li>地址: 北京市朝阳区心理学大厦</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 暗黑人格测试网站 版权所有 | 本测试仅供娱乐和自我了解，不能作为专业诊断依据</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 测试问题和答案
+        const questions = [
+            "1. 我倾向于操纵他人来达到我的目的。",
+            "2. 我缺乏悔意。",
+            "3. 我渴望得到他人的钦佩。",
+            "4. 我会利用奉承来获取我想要的东西。",
+            "5. 我倾向于不承担责任。",
+            "6. 我倾向于认为自己是特别的人。",
+            "7. 我会毫不犹豫地利用他人来达到我的目标。",
+            "8. 我倾向于冷漠无情。",
+            "9. 我期望从他人那里得到特殊待遇。",
+            "10. 我会利用他人的弱点来获得优势。",
+            "11. 我倾向于冲动行事。",
+            "12. 我倾向于夸大自己的成就。",
+            "13. 我不介意利用他人来获得成功。",
+            "14. 我很少感到内疚。",
+            "15. 我认为自己比大多数人更优秀。",
+            "16. 我会为了个人利益而欺骗他人。",
+            "17. 我对别人的感受漠不关心。",
+            "18. 我期望他人认可我的优越性。",
+            "19. 我会为了达到目的而说谎。",
+            "20. 我很难与他人建立深厚的情感联系。",
+            "21. 我喜欢成为关注的焦点。",
+            "22. 我会利用魅力来操纵他人。",
+            "23. 我很少考虑行为的后果。",
+            "24. 我认为自己应该得到特殊对待。",
+            "25. 我会为了个人利益而背叛他人。",
+            "26. 我对他人的痛苦不敏感。",
+            "27. 我倾向于夸大自己的重要性。",
+            "28. 我会利用诡计来获得优势。",
+            "29. 我很少感到焦虑或恐惧。",
+            "30. 我认为规则不适用于我。",
+            "31. 我会为了个人利益而操纵信息。",
+            "32. 我很难理解他人的情感。",
+            "33. 我期望他人满足我的需求。",
+            "34. 我会为了成功而走捷径。",
+            "35. 我很少感到羞愧。",
+            "36. 我认为自己有权得到更多。",
+            "37. 我会为了个人利益而破坏规则。",
+            "38. 我对社会规范不感兴趣。",
+            "39. 我喜欢控制他人。",
+            "40. 我很少考虑他人的感受。",
+            "41. 我倾向于利用他人来获得权力。",
+            "42. 我很少感到同情。",
+            "43. 我认为自己比他人更聪明。",
+            "44. 我会为了个人利益而操纵局势。",
+            "45. 我很少感到后悔。",
+            "46. 我期望他人服从我的意愿。",
+            "47. 我会为了达到目的而利用他人的情感。",
+            "48. 我对他人的困境漠不关心。",
+            "49. 我认为自己应该得到特殊关注。",
+            "50. 我会为了个人利益而背叛信任。",
+            "51. 我很少感到责任。",
+            "52. 我认为自己比他人更有价值。",
+            "53. 我会为了成功而利用他人。",
+            "54. 我很难与他人产生共鸣。",
+            "55. 我期望他人认可我的独特性。",
+            "56. 我会为了个人利益而操纵他人。",
+            "57. 我很少感到道德约束。",
+            "58. 我认为自己应该得到特殊权利。",
+            "59. 我会为了达到目的而利用他人的弱点。",
+            "60. 我很少考虑行为的道德影响。"
+        ];
+
+        // 测试逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            const questionsContainer = document.getElementById('questions-container');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progress');
+            const currentQuestionEl = document.getElementById('current-question');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const resultSection = document.getElementById('result');
+            const restartBtn = document.getElementById('restartBtn');
+            const testContainer = document.querySelector('.test-container');
+            
+            let currentQuestion = 0;
+            const answers = new Array(questions.length).fill(null);
+            const scores = {
+                machiavellian: 0,
+                narcissism: 0,
+                psychopathy: 0
+            };
+            
+            // 初始化问题
+            totalQuestionsEl.textContent = questions.length;
+            renderQuestions();
+            showQuestion(currentQuestion);
+            
+            // 下一题按钮事件
+            nextBtn.addEventListener('click', function() {
+                if (answers[currentQuestion] === null) {
+                    alert('请选择答案后再继续');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    // 计算并显示结果
+                    calculateResult();
+                }
+            });
+            
+            // 上一题按钮事件
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                }
+            });
+            
+            // 重新测试按钮事件
+            restartBtn.addEventListener('click', function() {
+                currentQuestion = 0;
+                // 重置答案
+                answers.fill(null);
+                // 重置选项选择状态
+                document.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                // 显示测试，隐藏结果
+                testContainer.style.display = 'block';
+                resultSection.style.display = 'none';
+                // 显示第一题
+                showQuestion(currentQuestion);
+            });
+            
+            // 渲染所有问题
+            function renderQuestions() {
+                questions.forEach((question, index) => {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'question';
+                    questionEl.id = `question${index + 1}`;
+                    
+                    const questionText = document.createElement('div');
+                    questionText.className = 'question-text';
+                    questionText.textContent = question;
+                    
+                    const options = document.createElement('div');
+                    options.className = 'options';
+                    
+                    // 创建5个选项，从强烈不同意到强烈同意
+                    const optionLabels = [
+                        '强烈不同意',
+                        '不同意',
+                        '中立',
+                        '同意',
+                        '强烈同意'
+                    ];
+                    
+                    optionLabels.forEach((label, optionIndex) => {
+                        const option = document.createElement('div');
+                        option.className = 'option';
+                        option.textContent = label;
+                        option.setAttribute('data-value', optionIndex + 1);
+                        
+                        option.addEventListener('click', function() {
+                            // 移除同组其他选项的选择状态
+                            options.querySelectorAll('.option').forEach(opt => {
+                                opt.classList.remove('selected');
+                            });
+                            // 标记当前选项为选中
+                            this.classList.add('selected');
+                            // 记录答案
+                            answers[index] = parseInt(this.getAttribute('data-value'));
+                        });
+                        
+                        options.appendChild(option);
+                    });
+                    
+                    questionEl.appendChild(questionText);
+                    questionEl.appendChild(options);
+                    questionsContainer.appendChild(questionEl);
+                });
+            }
+            
+            // 显示指定问题
+            function showQuestion(index) {
+                // 隐藏所有问题
+                document.querySelectorAll('.question').forEach(question => {
+                    question.classList.remove('active');
+                });
+                
+                // 显示当前问题
+                document.getElementById(`question${index + 1}`).classList.add('active');
+                
+                // 更新进度条
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                currentQuestionEl.textContent = index + 1;
+                
+                // 更新按钮状态
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? '查看结果' : '下一题';
+                
+                // 恢复之前的选择
+                if (answers[index] !== null) {
+                    const options = document.querySelectorAll(`#question${index + 1} .option`);
+                    options[answers[index] - 1].classList.add('selected');
+                }
+            }
+            
+            // 计算结果
+            function calculateResult() {
+                // 重置分数
+                scores.machiavellian = 0;
+                scores.narcissism = 0;
+                scores.psychopathy = 0;
+                
+                // 计算各维度分数
+                // 马基雅维利主义: 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 58
+                const machiavellianQuestions = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57];
+                machiavellianQuestions.forEach(qIndex => {
+                    scores.machiavellian += answers[qIndex] || 0;
+                });
+                
+                // 自恋: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60
+                const narcissismQuestions = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59];
+                narcissismQuestions.forEach(qIndex => {
+                    scores.narcissism += answers[qIndex] || 0;
+                });
+                
+                // 心理病态: 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59
+                const psychopathyQuestions = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 58];
+                psychopathyQuestions.forEach(qIndex => {
+                    scores.psychopathy += answers[qIndex] || 0;
+                });
+                
+                // 计算百分比分数 (每个维度最高100分)
+                const machiavellianPercent = Math.round((scores.machiavellian / 100) * 100);
+                const narcissismPercent = Math.round((scores.narcissism / 100) * 100);
+                const psychopathyPercent = Math.round((scores.psychopathy / 100) * 100);
+                const overallPercent = Math.round((machiavellianPercent + narcissismPercent + psychopathyPercent) / 3);
+                
+                // 更新结果页面
+                document.getElementById('darkScore').textContent = overallPercent;
+                document.getElementById('machiavellian-score').textContent = `${machiavellianPercent}%`;
+                document.getElementById('narcissism-score').textContent = `${narcissismPercent}%`;
+                document.getElementById('psychopathy-score').textContent = `${psychopathyPercent}%`;
+                document.getElementById('overall-score').textContent = `${overallPercent}%`;
+                
+                // 更新进度条
+                setTimeout(() => {
+                    document.getElementById('machiavellian-bar').style.width = `${machiavellianPercent}%`;
+                    document.getElementById('narcissism-bar').style.width = `${narcissismPercent}%`;
+                    document.getElementById('psychopathy-bar').style.width = `${psychopathyPercent}%`;
+                    document.getElementById('overall-bar').style.width = `${overallPercent}%`;
+                }, 100);
+                
+                // 根据分数设置结果标题和分析
+                let title, analysis, suggestion;
+                
+                if (overallPercent < 30) {
+                    title = "低暗黑特质";
+                    analysis = "你的暗黑人格特质得分较低，表明你通常表现出诚实、同理心和责任感。你倾向于考虑他人的感受，并遵循社会道德规范。";
+                    suggestion = "继续保持你的积极品质，并在人际关系中保持真诚和透明。";
+                } else if (overallPercent < 60) {
+                    title = "中等暗黑特质";
+                    analysis = "你的暗黑人格特质处于中等水平，表明你在某些情况下可能会表现出一些暗黑特质，但总体上仍然遵循社会规范。你可能在竞争环境中展现出更多的这些特质。";
+                    suggestion = "注意在压力情境下你的行为方式，确保你的行为符合你的价值观。";
+                } else if (overallPercent < 80) {
+                    title = "较高暗黑特质";
+                    analysis = "你的暗黑人格特质得分较高，表明你可能经常表现出操纵、自我中心和冲动行为。你可能会为了达到目标而利用他人，并且不太关心社会规范。";
+                    suggestion = "考虑这些特质如何影响你的人际关系和长期目标，可能需要寻求专业指导来更好地管理这些倾向。";
+                } else {
+                    title = "高暗黑特质";
+                    analysis = "你的暗黑人格特质得分很高，表明你经常表现出明显的操纵、自恋和心理病态倾向。你可能很少考虑他人的感受，并且倾向于利用他人来实现个人目标。";
+                    suggestion = "这些特质可能会对你的个人关系和职业发展产生负面影响。考虑寻求专业心理咨询来探索这些行为模式。";
+                }
+                
+                document.getElementById('resultTitle').textContent = title;
+                document.getElementById('result-analysis').textContent = analysis;
+                document.getElementById('result-suggestion').textContent = suggestion;
+                
+                // 显示结果，隐藏测试
+                testContainer.style.display = 'none';
+                resultSection.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
