@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗黑人格测试 | 60题专业版</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #d35400;
+            --secondary-color: #e67e22;
+            --accent-color: #f39c12;
+            --dark-bg: #2c3e50;
+            --darker-bg: #1a252f;
+            --light-text: #f5f5f5;
+            --medium-text: #bdc3c7;
+            --card-bg: #34495e;
+            --border-color: #46627f;
+            --warm-bg: #fef5e7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            background-image: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+        }
+        
+        .copyright-notice {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--darker-bg), var(--primary-color));
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(211, 84, 0, 0.3), transparent 70%);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--medium-text);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.6);
+        }
+        
+        .btn:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: var(--light-text);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--medium-text);
+            line-height: 1.8;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .question {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .question:last-child {
+            border-bottom: none;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            color: var(--light-text);
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .option.selected {
+            background-color: rgba(211, 84, 0, 0.3);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(211, 84, 0, 0.5);
+        }
+        
+        .results-section {
+            display: none;
+        }
+        
+        .score-display {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 1rem 0;
+        }
+        
+        .score-description {
+            font-size: 1.3rem;
+            color: var(--medium-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .chart-container {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            height: 400px;
+        }
+        
+        .trait-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .trait-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .trait-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+        
+        .trait-score {
+            font-size: 1.1rem;
+            color: var(--medium-text);
+            margin-bottom: 1rem;
+        }
+        
+        .trait-description {
+            font-size: 0.95rem;
+            color: var(--medium-text);
+            line-height: 1.6;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        footer {
+            background-color: var(--darker-bg);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--medium-text);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .disclaimer {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(243, 156, 18, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(243, 156, 18, 0);
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .visualization-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .radar-chart {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .dimensions-list {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .dimension-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .dimension-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .dimension-score {
+            width: 50px;
+            text-align: right;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+        
+        .dimension-rank {
+            width: 70px;
+            text-align: center;
+            background: var(--primary-color);
+            border-radius: 20px;
+            padding: 5px 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .dimension-progress {
+            flex: 2;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+        
+        .dimension-progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+        }
+        
+        .progress-percent {
+            width: 50px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--medium-text);
+        }
+        
+        .dark-factor-score {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(211, 84, 0, 0.2), rgba(243, 156, 18, 0.2));
+            border-radius: 12px;
+            border: 1px solid var(--primary-color);
+        }
+        
+        .dark-factor-value {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 1rem 0;
+        }
+        
+        .dark-factor-label {
+            font-size: 1.5rem;
+            color: var(--medium-text);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--medium-text);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-score {
+            background: var(--primary-color);
+        }
+        
+        .legend-rank {
+            background: var(--accent-color);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--medium-text);
+            font-size: 1.1rem;
+        }
+        
+        .warm-accent {
+            color: var(--accent-color);
+        }
+
+        /* 激活码样式 */
+        #activation-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+        }
+        
+        .activation-form {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .activation-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--light-text);
+            font-size: 1.1rem;
+        }
+        
+        .activation-input::placeholder {
+            color: var(--medium-text);
+        }
+        
+        .activation-message {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            display: block !important; /* 强制显示错误信息 */
+        }
+        
+        .success {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+            display: block !important;
+        }
+        
+        .test-content {
+            display: none;
+        }
+        
+        /* 返回激活页按钮样式 */
+        .back-to-activation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(26, 37, 47, 0.9);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-activation:hover {
+            background: rgba(211, 84, 0, 0.9);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="copyright-notice">
+        小红书小闵学姐为唯一正版店铺，其他均为抄袭、倒卖或者假冒，如需授权，请前往小红书联系
+    </div>
+    
+    <header>
+        <div class="container">
+            <h1>暗黑人格测试</h1>
+            <p class="subtitle">探索你内心深处的黑暗面 - 60题专业版</p>
+        </div>
+    </header>
+    
+    <!-- 激活码验证区域 -->
+    <section id="activation-section">
+        <div class="container">
+            <h2 class="section-title">请输入激活码</h2>
+            <div class="card">
+                <p class="intro-text">本测试需要激活码才能使用，请输入有效的激活码进行激活。每次访问都需要重新激活。</p>
+                <form class="activation-form">
+                    <input type="text" class="activation-input" id="activation-code" placeholder="请输入激活码" maxlength="16">
+                    <button type="button" class="btn pulse" id="activate-btn">激活测试</button>
+                    <div class="activation-message" id="activation-message"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 测试内容区域（初始隐藏） -->
+    <div class="test-content">
+        <!-- 返回激活页按钮 -->
+        <div class="back-to-activation" id="back-to-activation" onclick="backToActivation()">
+            返回激活页
+        </div>
+        
+        <section id="intro">
+            <div class="container">
+                <h2 class="section-title">关于暗黑人格</h2>
+                <p class="intro-text">
+                    暗黑人格测试基于心理学中的"黑暗人格特质"理论，评估个体的10种负面人格特质。这些特质虽然普遍存在于人群中，但在不同程度上影响着人们的行为和决策。
+                </p>
+                <div class="card">
+                    <h3>测试说明</h3>
+                    <p>本测试包含60个问题，请根据您的真实感受和倾向选择最符合的选项。答案没有对错之分，请尽量诚实回答以获得准确结果。</p>
+                    <p>测试完成后，您将获得详细的黑暗人格指数(D值)和10个维度的可视化分析报告。</p>
+                    <div class="progress-info">
+                        <span>预计耗时: 10-15分钟</span>
+                        <span>题目数量: 60题</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="test">
+            <div class="container">
+                <h2 class="section-title">人格测试</h2>
+                <div class="card">
+                    <div id="progress-bar" style="height: 6px; background: #46627f; border-radius: 3px; margin-bottom: 20px; overflow: hidden;">
+                        <div id="progress-fill" style="height: 100%; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); width: 0%; transition: width 0.3s ease;"></div>
+                    </div>
+                    <div id="progress-text" style="text-align: center; margin-bottom: 20px; color: var(--medium-text);">已完成 0/60 题</div>
+                    
+                    <div id="questions-container">
+                        <!-- 问题将通过JavaScript动态生成 -->
+                    </div>
+                    <div class="navigation">
+                        <button id="prev-btn" class="btn" disabled>上一题</button>
+                        <button id="next-btn" class="btn">下一题</button>
+                        <button id="submit-btn" class="btn" style="display: none;">查看结果</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="results" class="results-section">
+            <div class="container">
+                <h2 class="section-title">测试结果</h2>
+                
+                <div class="dark-factor-score card">
+                    <h3>您的黑暗人格指数</h3>
+                    <div class="dark-factor-value" id="dark-factor-score">0</div>
+                    <p class="dark-factor-label" id="dark-factor-description"></p>
+                </div>
+                
+                <div class="card">
+                    <h3>人格特质分析</h3>
+                    <p class="section-subtitle">10个维度的详细得分和排名分析</p>
+                    
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-score"></div>
+                            <span>得分：您的实际测试分数(0-100分)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-rank"></div>
+                            <span>排名：您在人群中的相对位置(百分比)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="visualization-container">
+                        <div class="radar-chart">
+                            <canvas id="results-chart"></canvas>
+                        </div>
+                        <div class="dimensions-list">
+                            <div class="dimension-item">
+                                <div class="dimension-name">利己主义</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="egoism-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="egoism-percent">0%</div>
+                                <div class="dimension-score" id="egoism-score">0</div>
+                                <div class="dimension-rank" id="egoism-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">贪婪</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="greed-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="greed-percent">0%</div>
+                                <div class="dimension-score" id="greed-score">0</div>
+                                <div class="dimension-rank" id="greed-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">马基雅维利主义</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="mach-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="mach-percent">0%</div>
+                                <div class="dimension-score" id="mach-score">0</div>
+                                <div class="dimension-rank" id="mach-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">道德推脱</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="moral-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="moral-percent">0%</div>
+                                <div class="dimension-score" id="moral-score">0</div>
+                                <div class="dimension-rank" id="moral-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">自恋</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="narc-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="narc-percent">0%</div>
+                                <div class="dimension-score" id="narc-score">0</div>
+                                <div class="dimension-rank" id="narc-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">心理权力</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="power-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="power-percent">0%</div>
+                                <div class="dimension-score" id="power-score">0</div>
+                                <div class="dimension-rank" id="power-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">精神变态</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="psych-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="psych-percent">0%</div>
+                                <div class="dimension-score" id="psych-score">0</div>
+                                <div class="dimension-rank" id="psych-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">施虐倾向</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="sadism-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="sadism-percent">0%</div>
+                                <div class="dimension-score" id="sadism-score">0</div>
+                                <div class="dimension-rank" id="sadism-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">自我为中心</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="self-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="self-percent">0%</div>
+                                <div class="dimension-score" id="self-score">0</div>
+                                <div class="dimension-rank" id="self-rank">0%</div>
+                            </div>
+                            <div class="dimension-item">
+                                <div class="dimension-name">恶毒倾向</div>
+                                <div class="dimension-progress">
+                                    <div class="dimension-progress-fill" id="spite-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percent" id="spite-percent">0%</div>
+                                <div class="dimension-score" id="spite-score">0</div>
+                                <div class="dimension-rank" id="spite-rank">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <h4>结果说明：</h4>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li><strong>得分 (0-100分)</strong>：您的实际测试分数，分数越高表示该特质越明显</li>
+                            <li><strong>排名 (百分比)</strong>：您在人群中的相对位置。例如"85%"表示您比85%的人在该特质上得分更高</li>
+                            <li><strong>进度条</strong>：直观显示您的得分百分比</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-style: italic;">
+                            注意：排名百分比是基于模拟数据计算，仅用于参考比较。实际人群分布可能有所不同。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>详细分析报告</h3>
+                    <div id="detailed-analysis">
+                        <!-- 详细分析内容将通过JavaScript生成 -->
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button id="retake-btn" class="btn">重新测试</button>
+                    <button id="reset-activation-btn" class="btn" style="background: linear-gradient(135deg, #7f8c8d, #95a5a6);">重新激活</button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p class="disclaimer">
+                免责声明：本测试仅用于娱乐和自我认知目的，不能替代专业心理评估。测试结果仅供参考，不应作为诊断或治疗依据。如果您对自己的心理健康有任何担忧，请咨询专业心理医生。
+            </p>
+            <p style="margin-top: 1rem;">&copy; 2023 暗黑人格测试 | 基于心理学研究的专业评估工具</p>
+        </div>
+    </footer>
+
+    <script>
+        // 等待DOM完全加载后再执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 激活码验证功能 - 正确激活码 TEST2024ACTIVATI (16位)
+            const validActivationCode = "TEST2024ACTIVATI";
+            const activationSection = document.getElementById('activation-section');
+            const testContent = document.querySelector('.test-content');
+            const activationInput = document.getElementById('activation-code');
+            const activationBtn = document.getElementById('activate-btn');
+            const activationMessage = document.getElementById('activation-message');
+            
+            // 调试：打印获取的元素，确认元素存在
+            console.log('激活按钮元素:', activationBtn);
+            console.log('激活输入框:', activationInput);
+            
+            // 移除本地存储检查，确保每次都需要输入激活码
+            // 清除任何可能存在的激活记录
+            localStorage.removeItem('testActivated');
+            
+            // 重新绑定点击事件（核心修复）
+            activationBtn.addEventListener('click', function() {
+                console.log('激活按钮被点击'); // 调试日志
+                const code = activationInput.value.trim();
+                console.log('输入的激活码:', code);
+                
+                // 清空之前的消息
+                activationMessage.className = 'activation-message';
+                activationMessage.textContent = '';
+                
+                if (code === validActivationCode) {
+                    // 激活成功 - 不再保存到本地存储
+                    activationMessage.textContent = '激活成功！正在进入测试...';
+                    activationMessage.classList.add('success');
+                    
+                    // 延迟跳转，让用户看到成功提示
+                    setTimeout(function() {
+                        activateTest();
+                    }, 1000);
+                } else {
+                    // 激活失败
+                    activationMessage.textContent = '激活码无效，请重新输入（正确激活码：TEST2024ACTIVATI）';
+                    activationMessage.classList.add('error');
+                    
+                    // 5秒后清除错误提示
+                    setTimeout(function() {
+                        activationMessage.classList.remove('error');
+                        activationMessage.textContent = '';
+                    }, 5000);
+                }
+            });
+            
+            // 支持回车键激活
+            activationInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    activationBtn.click();
+                }
+            });
+            
+            // 激活测试，显示测试内容
+            function activateTest() {
+                console.log('激活测试，显示测试内容'); // 调试日志
+                activationSection.style.display = 'none';
+                testContent.style.display = 'block';
+                activationInput.value = ''; // 清空激活码输入框
+                initTest(); // 初始化测试
+            }
+            
+            // 测试问题数据 (60题)
+            const questions = [
+                "我认为操纵他人是达到目的的必要手段。",
+                "我倾向于利用他人来达成自己的目标。",
+                "我对别人的痛苦和困难不太关心。",
+                "我经常夸大自己的成就和能力。",
+                "我认为自己比大多数人更特别和重要。",
+                "我喜欢成为关注的焦点。",
+                "我容易感到无聊，需要不断寻求刺激。",
+                "我做事冲动，很少考虑后果。",
+                "我缺乏悔恨或内疚的感觉。",
+                "我善于说谎且不会感到不安。",
+                "我相信为了成功可以不择手段。",
+                "我倾向于利用奉承来获取自己想要的东西。",
+                "我对别人的感受漠不关心。",
+                "我认为自己有资格得到特殊待遇。",
+                "我期望别人认可我的优越性。",
+                "我难以维持长期的关系。",
+                "我经常做出不负责任的行为。",
+                "我缺乏长期目标。",
+                "我对他人的痛苦缺乏同情心。",
+                "我认为道德是相对的，取决于情况。",
+                "我愿意伤害他人来获得个人利益。",
+                "看到他人痛苦会让我感到满足。",
+                "我喜欢控制和支配他人。",
+                "我认为大多数人都是可以被利用的。",
+                "我很少考虑自己行为的道德后果。",
+                "我享受看到他人失败或受挫。",
+                "我认为权力比道德更重要。",
+                "我会为了个人利益背叛朋友。",
+                "我很少对自己的行为感到后悔。",
+                "我认为情感是弱者的表现。",
+                "我喜欢操纵他人的情感。",
+                "我认为诚实通常不是最佳策略。",
+                "我享受在竞争中击败他人。",
+                "我认为怜悯是一种弱点。",
+                "我会利用他人的弱点来达到目的。",
+                "我认为规则是为别人制定的。",
+                "我很少关心他人的感受。",
+                "我认为成功证明了一切。",
+                "我喜欢看到他人服从我的意志。",
+                "我认为情感会干扰理性决策。",
+                "我愿意为了个人利益伤害他人。",
+                "我认为道德只是社会控制的工具。",
+                "我喜欢在心理上操控他人。",
+                "我认为同情心是多余的。",
+                "我会为了自己的利益牺牲他人。",
+                "我认为大多数人都不值得信任。",
+                "我喜欢看到他人感到不安或困惑。",
+                "我认为情感联系是负担。",
+                "我会利用他人的善良来获利。",
+                "我认为道德只是弱者的借口。",
+                "我喜欢在争论中击败他人。",
+                "我认为情感是决策的障碍。",
+                "我会为了个人利益欺骗他人。",
+                "我认为大多数人都是愚蠢的。",
+                "我喜欢看到他人依赖我。",
+                "我认为道德价值观是主观的。",
+                "我会利用他人的信任来获利。",
+                "我认为情感表达是软弱的标志。",
+                "我喜欢在心理上支配他人。",
+                "我认为道德只是社会规范。"
+            ];
+            
+            // 答案选项
+            const options = [
+                "非常不同意",
+                "不同意",
+                "中立",
+                "同意",
+                "非常同意"
+            ];
+            
+            // 问题分类 (0:利己主义, 1:贪婪, 2:马基雅维利主义, 3:道德推脱, 4:自恋, 5:心理权力, 6:精神变态, 7:施虐倾向, 8:自我为中心, 9:恶毒倾向)
+            const questionCategories = [
+                0, 0, 6, 4, 4, 4, 6, 6, 6, 2,
+                2, 2, 6, 4, 4, 6, 6, 6, 6, 3,
+                9, 7, 5, 2, 3, 7, 5, 9, 6, 6,
+                7, 2, 7, 6, 2, 3, 6, 8, 5, 6,
+                9, 3, 7, 6, 9, 8, 7, 8, 1, 3,
+                7, 6, 2, 8, 5, 3, 1, 6, 7, 3
+            ];
+            
+            // 当前问题索引
+            let currentQuestion = 0;
+            // 用户答案存储
+            let userAnswers = new Array(questions.length).fill(-1);
+            
+            // 初始化测试
+            function initTest() {
+                displayQuestion(currentQuestion);
+                updateProgress();
+                
+                // 添加事件监听
+                document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+                document.getElementById('next-btn').addEventListener('click', nextQuestion);
+                document.getElementById('submit-btn').addEventListener('click', showResults);
+                document.getElementById('retake-btn').addEventListener('click', retakeTest);
+                
+                // 绑定重新激活按钮事件
+                const resetActivationBtn = document.getElementById('reset-activation-btn');
+                if (resetActivationBtn) {
+                    resetActivationBtn.addEventListener('click', backToActivation);
+                }
+            }
+            
+            // 显示问题
+            function displayQuestion(index) {
+                const container = document.getElementById('questions-container');
+                container.innerHTML = '';
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = `问题 ${index + 1}/${questions.length}: ${questions[index]}`;
+                questionDiv.appendChild(questionText);
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                options.forEach((option, i) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    if (userAnswers[index] === i) {
+                        optionDiv.classList.add('selected');
+                    }
+                    optionDiv.textContent = option;
+                    optionDiv.dataset.value = i;
+                    optionDiv.addEventListener('click', () => selectOption(index, i));
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+                container.appendChild(questionDiv);
+                
+                // 更新导航按钮状态
+                document.getElementById('prev-btn').disabled = index === 0;
+                document.getElementById('next-btn').style.display = index === questions.length - 1 ? 'none' : 'inline-block';
+                document.getElementById('submit-btn').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+            }
+            
+            // 更新进度条
+            function updateProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== -1).length;
+                const progressPercent = (answeredCount / questions.length) * 100;
+                
+                document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+                document.getElementById('progress-text').textContent = `已完成 ${answeredCount}/${questions.length} 题`;
+            }
+            
+            // 选择答案
+            function selectOption(questionIndex, optionIndex) {
+                userAnswers[questionIndex] = optionIndex;
+                updateProgress();
+                
+                // 更新选项样式
+                const options = document.querySelectorAll('.option');
+                options.forEach((option, i) => {
+                    if (parseInt(option.dataset.value) === optionIndex) {
+                        option.classList.add('selected');
+                    } else {
+                        option.classList.remove('selected');
+                    }
+                });
+            }
+            
+            // 上一题
+            function prevQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    displayQuestion(currentQuestion);
+                }
+            }
+            
+            // 下一题
+            function nextQuestion() {
+                if (currentQuestion < questions.length - 1) {
+                    if (userAnswers[currentQuestion] === -1) {
+                        alert('请选择答案后再继续');
+                        return;
+                    }
+                    currentQuestion++;
+                    displayQuestion(currentQuestion);
+                }
+            }
+            
+            // 显示结果
+            function showResults() {
+                if (userAnswers.includes(-1)) {
+                    alert('请完成所有问题后再提交');
+                    return;
+                }
+                
+                // 计算分数
+                const scores = calculateScores();
+                
+                // 显示结果区域
+                document.getElementById('test').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+                
+                // 更新黑暗人格指数
+                document.getElementById('dark-factor-score').textContent = scores.darkFactor;
+                document.getElementById('dark-factor-description').textContent = getDarkFactorDescription(scores.darkFactor);
+                
+                // 更新各维度分数和排名
+                updateDimensionScores(scores);
+                
+                // 生成图表
+                renderChart(scores);
+                
+                // 生成详细分析
+                generateDetailedAnalysis(scores);
+                
+                // 滚动到结果区域
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // 计算分数
+            function calculateScores() {
+                // 初始化各维度分数
+                const dimensionScores = {
+                    egoism: 0,      // 利己主义
+                    greed: 0,       // 贪婪
+                    mach: 0,        // 马基雅维利主义
+                    moral: 0,       // 道德推脱
+                    narc: 0,        // 自恋
+                    power: 0,       // 心理权力
+                    psych: 0,       // 精神变态
+                    sadism: 0,      // 施虐倾向
+                    self: 0,        // 自我为中心
+                    spite: 0        // 恶毒倾向
+                };
+                
+                const dimensionCounts = {
+                    egoism: 0,
+                    greed: 0,
+                    mach: 0,
+                    moral: 0,
+                    narc: 0,
+                    power: 0,
+                    psych: 0,
+                    sadism: 0,
+                    self: 0,
+                    spite: 0
+                };
+                
+                // 计算各维度总分
+                for (let i = 0; i < userAnswers.length; i++) {
+                    if (userAnswers[i] === -1) continue;
+                    
+                    // 将0-4的答案转换为0-100的分数
+                    const score = userAnswers[i] * 25;
+                    
+                    switch(questionCategories[i]) {
+                        case 0: dimensionScores.egoism += score; dimensionCounts.egoism++; break;
+                        case 1: dimensionScores.greed += score; dimensionCounts.greed++; break;
+                        case 2: dimensionScores.mach += score; dimensionCounts.mach++; break;
+                        case 3: dimensionScores.moral += score; dimensionCounts.moral++; break;
+                        case 4: dimensionScores.narc += score; dimensionCounts.narc++; break;
+                        case 5: dimensionScores.power += score; dimensionCounts.power++; break;
+                        case 6: dimensionScores.psych += score; dimensionCounts.psych++; break;
+                        case 7: dimensionScores.sadism += score; dimensionCounts.sadism++; break;
+                        case 8: dimensionScores.self += score; dimensionCounts.self++; break;
+                        case 9: dimensionScores.spite += score; dimensionCounts.spite++; break;
+                    }
+                }
+                
+                // 计算平均分（0-100）
+                const avgScores = {};
+                for (const key in dimensionScores) {
+                    avgScores[key] = dimensionCounts[key] > 0 ? Math.round((dimensionScores[key] / dimensionCounts[key])) : 0;
+                }
+                
+                // 计算黑暗人格指数（所有维度的平均值）
+                const dimensions = Object.keys(avgScores);
+                const darkFactor = Math.round(dimensions.reduce((sum, key) => sum + avgScores[key], 0) / dimensions.length);
+                
+                // 生成模拟排名（0-100%）
+                const ranks = {};
+                for (const key in avgScores) {
+                    // 模拟排名，基于分数但加入一些随机因素
+                    ranks[key] = Math.min(100, Math.max(0, Math.round(avgScores[key] * 0.8 + Math.random() * 20)));
+                }
+                
+                return {
+                    darkFactor,
+                    scores: avgScores,
+                    ranks
+                };
+            }
+            
+            // 获取黑暗人格指数描述
+            function getDarkFactorDescription(score) {
+                if (score < 20) return "极低黑暗人格倾向 - 你具有较强的同理心和道德感，倾向于关注他人需求";
+                if (score < 40) return "低黑暗人格倾向 - 你总体上是善良和体贴的，偶尔会表现出自我中心的行为";
+                if (score < 60) return "中等黑暗人格倾向 - 你在某些情况下会优先考虑自己的利益，但也能顾及他人感受";
+                if (score < 80) return "高黑暗人格倾向 - 你表现出明显的自我中心和操纵倾向，对他人感受不够敏感";
+                return "极高黑暗人格倾向 - 你具有强烈的控制欲和自我中心，较少考虑道德约束和他人感受";
+            }
+            
+            // 更新各维度分数和排名显示
+            function updateDimensionScores(scores) {
+                const dimensions = [
+                    { id: 'egoism', name: '利己主义' },
+                    { id: 'greed', name: '贪婪' },
+                    { id: 'mach', name: '马基雅维利主义' },
+                    { id: 'moral', name: '道德推脱' },
+                    { id: 'narc', name: '自恋' },
+                    { id: 'power', name: '心理权力' },
+                    { id: 'psych', name: '精神变态' },
+                    { id: 'sadism', name: '施虐倾向' },
+                    { id: 'self', name: '自我为中心' },
+                    { id: 'spite', name: '恶毒倾向' }
+                ];
+                
+                dimensions.forEach(dim => {
+                    const score = scores.scores[dim.id];
+                    const rank = scores.ranks[dim.id];
+                    
+                    document.getElementById(`${dim.id}-score`).textContent = score;
+                    document.getElementById(`${dim.id}-rank`).textContent = `${rank}%`;
+                    document.getElementById(`${dim.id}-progress`).style.width = `${score}%`;
+                    document.getElementById(`${dim.id}-percent`).textContent = `${score}%`;
+                });
+            }
+            
+            // 生成雷达图
+            function renderChart(scores) {
+                const ctx = document.getElementById('results-chart').getContext('2d');
+                
+                const chartData = {
+                    labels: [
+                        '利己主义', '贪婪', '马基雅维利主义', '道德推脱', 
+                        '自恋', '心理权力', '精神变态', '施虐倾向', 
+                        '自我为中心', '恶毒倾向'
+                    ],
+                    datasets: [{
+                        label: '你的得分',
+                        data: [
+                            scores.scores.egoism,
+                            scores.scores.greed,
+                            scores.scores.mach,
+                            scores.scores.moral,
+                            scores.scores.narc,
+                            scores.scores.power,
+                            scores.scores.psych,
+                            scores.scores.sadism,
+                            scores.scores.self,
+                            scores.scores.spite
+                        ],
+                        backgroundColor: 'rgba(211, 84, 0, 0.2)',
+                        borderColor: 'rgba(211, 84, 0, 1)',
+                        pointBackgroundColor: 'rgba(211, 84, 0, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(211, 84, 0, 1)'
+                    }]
+                };
+                
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: chartData,
+                    options: {
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                pointLabels: {
+                                    color: '#bdc3c7', // 直接使用颜色值，避免var()兼容性问题
+                                    font: {
+                                        size: 11
+                                    }
+                                },
+                                ticks: {
+                                    backdropColor: 'transparent',
+                                    color: '#bdc3c7',
+                                    showLabelBackdrop: false
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#f5f5f5'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 生成详细分析报告
+            function generateDetailedAnalysis(scores) {
+                const analysisContainer = document.getElementById('detailed-analysis');
+                analysisContainer.innerHTML = '';
+                
+                // 各维度分析
+                const traitAnalyses = {
+                    egoism: {
+                        title: "利己主义",
+                        description: "利己主义反映了你在决策时优先考虑自身利益的倾向。高分表明你更关注个人得失，而低分则表明你更愿意为他人牺牲个人利益。"
+                    },
+                    greed: {
+                        title: "贪婪",
+                        description: "贪婪衡量了你对物质财富和资源的渴望程度。高分显示你对财富有强烈追求，可能愿意为获取更多资源而付出额外努力或采取不寻常手段。"
+                    },
+                    mach: {
+                        title: "马基雅维利主义",
+                        description: "马基雅维利主义体现了'为达目的不择手段'的倾向。高分表明你善于策略性思考，愿意使用操纵和欺骗来实现目标，重视结果而非道德过程。"
+                    },
+                    moral: {
+                        title: "道德推脱",
+                        description: "道德推脱反映了你对道德标准的灵活态度。高分表明你倾向于为不道德行为寻找合理化解释，认为道德规则可以根据情况灵活调整。"
+                    },
+                    narc: {
+                        title: "自恋",
+                        description: "自恋衡量了你对自我重要性的认知和对他人赞赏的需求。高分显示你有较强的自我中心倾向，认为自己比他人更值得关注和特殊对待。"
+                    },
+                    power: {
+                        title: "心理权力",
+                        description: "心理权力反映了你对控制他人和环境的渴望。高分表明你享受支配感，喜欢处于权力地位，并倾向于影响他人的决策和行为。"
+                    },
+                    psych: {
+                        title: "精神变态",
+                        description: "精神变态体现了情感淡漠和冲动行为的倾向。高分显示你可能缺乏共情能力，行事冲动，对自己的行为后果不够关注。"
+                    },
+                    sadism: {
+                        title: "施虐倾向",
+                        description: "施虐倾向衡量了你从他人痛苦中获得满足的程度。高分表明你可能在某种程度上享受看到他人受挫或痛苦，这可能表现为言语讽刺或更严重的行为。"
+                    },
+                    self: {
+                        title: "自我为中心",
+                        description: "自我为中心反映了你关注自身需求和感受而非他人的程度。高分表明你在人际关系中更注重自己的感受和需求，较少考虑他人视角。"
+                    },
+                    spite: {
+                        title: "恶毒倾向",
+                        description: "恶毒倾向体现了你故意伤害他人的意愿。高分表明你可能在受到冒犯时寻求报复，甚至在没有直接冲突的情况下也可能试图伤害他人。"
+                    }
+                };
+                
+                // 按分数排序，找出最高和最低的三个特质
+                const sortedTraits = Object.keys(scores.scores)
+                    .map(key => ({ key, score: scores.scores[key] }))
+                    .sort((a, b) => b.score - a.score);
+                
+                const top3 = sortedTraits.slice(0, 3);
+                const bottom3 = sortedTraits.slice(-3).reverse();
+                
+                // 添加总体分析
+                const overallAnalysis = document.createElement('div');
+                overallAnalysis.className = 'card';
+                overallAnalysis.innerHTML = `
+                    <h3>总体评估</h3>
+                    <p>你的黑暗人格指数为${scores.darkFactor}，${getDarkFactorDescription(scores.darkFactor)}。</p>
+                    <p>你的主要黑暗人格特质是${top3.map(t => traitAnalyses[t.key].title).join('、')}，这些特质在你的人格中表现最为明显。</p>
+                    <p>相对较弱的特质是${bottom3.map(t => traitAnalyses[t.key].title).join('、')}，这些方面你表现出较少的黑暗倾向。</p>
+                `;
+                analysisContainer.appendChild(overallAnalysis);
+                
+                // 添加各特质详细分析
+                top3.forEach(trait => {
+                    const traitAnalysis = document.createElement('div');
+                    traitAnalysis.className = 'trait-card';
+                    
+                    const score = scores.scores[trait.key];
+                    let intensity = '';
+                    if (score < 30) intensity = '较低';
+                    else if (score < 50) intensity = '中等偏低';
+                    else if (score < 70) intensity = '中等偏高';
+                    else intensity = '较高';
+                    
+                    traitAnalysis.innerHTML = `
+                        <h4 class="trait-name">${traitAnalyses[trait.key].title}</h4>
+                        <div class="trait-score">得分：${score}（${intensity}）</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${score}%"></div>
+                        </div>
+                        <p class="trait-description">${traitAnalyses[trait.key].description}</p>
+                        <p class="trait-description"><strong>人群排名：</strong>你在该特质上的得分高于${scores.ranks[trait.key]}%的人。</p>
+                    `;
+                    analysisContainer.appendChild(traitAnalysis);
+                });
+            }
+            
+            // 重新测试
+            function retakeTest() {
+                currentQuestion = 0;
+                userAnswers = new Array(questions.length).fill(-1);
+                
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('test').style.display = 'block';
+                
+                displayQuestion(currentQuestion);
+                updateProgress();
+                
+                // 滚动到测试区域
+                document.getElementById('test').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        // 返回激活页面函数（全局可用）
+        function backToActivation() {
+            const activationSection = document.getElementById('activation-section');
+            const testContent = document.querySelector('.test-content');
+            
+            // 显示激活区域，隐藏测试内容
+            activationSection.style.display = 'flex';
+            testContent.style.display = 'none';
+            
+            // 清空激活码输入框
+            const activationInput = document.getElementById('activation-code');
+            if (activationInput) {
+                activationInput.value = '';
+            }
+            
+            // 清空消息提示
+            const activationMessage = document.getElementById('activation-message');
+            if (activationMessage) {
+                activationMessage.className = 'activation-message';
+                activationMessage.textContent = '';
+            }
+            
+            // 滚动到激活区域
+            activationSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
